@@ -1,15 +1,25 @@
-class myHeap {
+class Node {
+    constructor(value, priority) {
+        this.value = value;
+        this.priority = priority;
+    }
+}
+
+class PriorityHeap {
     constructor() {
         this.heapElements = [];
     }
 
-    insert(value) {
-        this.heapElements.push(value);
+    insert(value, priority) {
+        const newNode = new Node(value, priority);
+        this.heapElements.push(newNode);
         let currentElementIndex = this.heapElements.length - 1;
         let parentElementIndex = Math.floor((currentElementIndex + 1) / 2) - 1;
-        while (parentElementIndex >= 0 && (this.heapElements[currentElementIndex] > this.heapElements[parentElementIndex])) {
+        while (parentElementIndex >= 0 && (this.heapElements[currentElementIndex].priority > 
+            this.heapElements[parentElementIndex].priority)) 
+            {
             const parentElement = this.heapElements[parentElementIndex];
-            this.heapElements[parentElementIndex] = value;
+            this.heapElements[parentElementIndex] = newNode;
             this.heapElements[currentElementIndex] = parentElement;
             currentElementIndex = parentElementIndex;
             parentElementIndex = Math.floor((currentElementIndex + 1) / 2) - 1;
@@ -33,10 +43,10 @@ class myHeap {
             let rightChildIndex = 2 * currentElementIndex + 2;
 
             let childElementIndex = this.heapElements[rightChildIndex] &&
-                this.heapElements[rightChildIndex] >= this.heapElements[leftChildIndex]
+                this.heapElements[rightChildIndex].priority >= this.heapElements[leftChildIndex].priority
                 ? rightChildIndex
                 : leftChildIndex;
-            if (this.heapElements[currentElementIndex] <= this.heapElements[childElementIndex]) {
+            if (this.heapElements[childElementIndex] && this.heapElements[currentElementIndex].priority <= this.heapElements[childElementIndex].priority) {
                 const currentNode = this.heapElements[currentElementIndex];
                 const currentChildNode = this.heapElements[childElementIndex];
                 this.heapElements[childElementIndex] = currentNode;
@@ -55,22 +65,21 @@ class myHeap {
     }
 }
 
-const heap = new myHeap();
+const heap = new PriorityHeap();
 
-heap.insert(250);
-heap.insert(150);
-heap.insert(120);
-heap.insert(100);
-heap.insert(110);
-heap.insert(10);
+heap.insert('Do my homework', 20);
+heap.insert('Clean room', 10);
+heap.insert('Buy products in the grossmarket', 40);
+heap.insert('Walk with dog', 15);
+heap.insert('Cooking', 50);
+heap.insert('Watch TV', 45);
 
 
-heap.process();
-heap.process();
-heap.process();
-heap.process();
-heap.process();
-// heap.process();
 
-// console.log(heap.process());
+
+console.log(heap.process());
+console.log(heap.process());
+console.log(heap.process());
+console.log(heap.process());
+
 console.log(heap);
